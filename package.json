@@ -1,6 +1,6 @@
 {
   "name": "kr-test-package1",
-  "version": "0.15.8",
+  "version": "0.15.9",
   "description": "CLI for Azure DevOps Services and Team Foundation Server",
   "repository": {
     "type": "git",
@@ -15,7 +15,7 @@
     "clean": "rimraf _build",
     "build": "tsc -p .",
     "postbuild": "ncp app/tfx-cli.js _build/tfx-cli.js && ncp package.json _build/package.json && ncp app/exec/build/tasks/_resources _build/exec/build/tasks/_resources",
-    "prepublish": "npm run build"
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "app-root-path": "1.0.0",
