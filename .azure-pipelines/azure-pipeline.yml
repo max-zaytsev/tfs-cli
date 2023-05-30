@@ -26,9 +26,8 @@ steps:
   displayName: Build TFX CLI
 
 - powershell: |
-    ## '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' | Out-File '.npmrc'
-    ##&
-    npm publish
+    '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' | Out-File '../.npmrc'
+    & npm publish
     if ($LASTEXITCODE -eq 1) {
       Write-Host "##vso[task.logissue type=warning]Publishing TFX CLI was unsuccessful"
       exit 0
