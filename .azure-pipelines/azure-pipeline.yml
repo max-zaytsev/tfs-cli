@@ -25,22 +25,23 @@ steps:
     npm run build
   displayName: Build TFX CLI
 
-- ${{ if in(variables['build.reason'], 'IndividualCI', 'BatchedCI') }}:
-  # For CI runs on master, automatically publish packages
+- ${{ if in(variables['build.reason'], 'IndividualCI', 'BatchedCI', Manual) }}:
+  # For CI and Manual runs, automatically publish packages
   - bash: |
       echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > .npmrc
       npm publish
       rm .npmrc
-    displayName: Publish TFX CLI
+    displayName: Publish TFX CLI to npm
     continueOnError: true
     condition: succeeded()
     env:
       NPM_TOKEN: $(npm-automation.token)
 
+  # Generate a pipeline artifact so we can publish the package manually if there are issues with automation
   - bash: |
       npm pack
       cp *.tgz '$(Build.ArtifactStagingDirectory)'
-    displayName: Pack
+    displayName: Run npm-pack and copy to ArtifactStagingDirectory
     condition: succeeded()
 
   - task: PublishPipelineArtifact@1
@@ -48,4 +49,5 @@ steps:
       targetPath: '$(Build.ArtifactStagingDirectory)'
       artifactType: 'pipeline'
       artifactName: 'tfx-cli-package'
+    displayName: Publish tfx-cli package to pipeline artifacts
     condition: succeeded()
