@@ -34,3 +34,15 @@ steps:
   condition: and(succeeded(), in(variables['build.reason'], 'IndividualCI', 'Manual'))
   env:
     NPM_TOKEN: $(npm-automation.token)
+
+- script: | 
+    npm pack
+  displayName: Pack
+  condition: succeeded()
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Pipeline.Workspace)/*.tgz'
+    artifactType: 'pipeline'
+    artifactName: 'tfx-cli-package'
+  condition: succeeded()
