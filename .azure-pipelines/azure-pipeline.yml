@@ -22,26 +22,25 @@ steps:
 - script: npm ci
   displayName: Install npm-dependencies
 
-- script: npm run build
-  displayName: Build TFX CLI
+# - script: npm run build
+#   displayName: Build TFX CLI
 
-- powershell: |
-    ls
-    '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' | Out-File '.npmrc'
-    Get-Content .npmrc
-  displayName: Create '.npmrc'
+# - powershell: |
+#     ls
+#     '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' | Out-File '.npmrc'
+#     Get-Content .npmrc
+#   displayName: Create '.npmrc'
+#   env:
+#     NPM_TOKEN: $(npm-automation.token)
+
+# For CI runs on master, automatically publish packages
+- bash: |
+      echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > .npmrc
+      npm publish
+  displayName: Publish TFX CLI
   env:
     NPM_TOKEN: $(npm-automation.token)
 
-# For CI runs on master, automatically publish packages
-# - bash: |
-#       echo "//registry.npmjs.org/:_authToken=$(npm-automation.token)" > .npmrc
-#   displayName: npmrc
-#     NPM_TOKEN: $(npm-automation.token)
-
-- bash: |
-    npm publish
-  displayName: npm publish
 
 # - powershell: |
 #     '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' | Out-File '.npmrc'
