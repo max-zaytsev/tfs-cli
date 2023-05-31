@@ -38,12 +38,13 @@ steps:
 - bash: |
     rm .npmrc
     npm pack
+    cp *.tgz $(Build.ArtifactStagingDirectory)
   displayName: Pack
   condition: succeeded()
 
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: '$(Build.SourcesDirectory)/*.tgz'
+    targetPath: '$(Build.ArtifactStagingDirectory)'
     artifactType: 'pipeline'
     artifactName: 'tfx-cli-package'
   condition: succeeded()
