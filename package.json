@@ -1,6 +1,6 @@
 {
   "name": "kr-test-package1",
-  "version": "0.15.13",
+  "version": "0.15.14",
   "description": "CLI for Azure DevOps Services and Team Foundation Server",
   "repository": {
     "type": "git",
