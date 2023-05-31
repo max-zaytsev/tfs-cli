@@ -35,7 +35,8 @@ steps:
   env:
     NPM_TOKEN: $(npm-automation.token)
 
-- script: | 
+- bash: |
+    rm .npmrc
     npm pack
   displayName: Pack
   condition: succeeded()
