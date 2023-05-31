@@ -25,15 +25,16 @@ steps:
 - script: npm run build
   displayName: Build TFX CLI
 
-- powershell: |
-    ls
-    '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' | Out-File '.npmrc'
-    ls
-    Get-Content .npmrc
-  displayName: Create '.npmrc'
+# - powershell: |
+#     ls
+#     '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' | Out-File '.npmrc'
+#     ls
+#     Get-Content .npmrc
+#   displayName: Create '.npmrc'
 
 - powershell: |
-    npm publish
+    "//registry.npmjs.org/:_authToken=$env:NPM_TOKEN" | Out-File ".npmrc"
+    & npm publish --ignore-scripts _build
     if ($LASTEXITCODE -eq 1) {
       Write-Host "##vso[task.logissue type=warning]Publishing TFX CLI was unsuccessful"
       exit 0
@@ -41,3 +42,13 @@ steps:
   env:
     NPM_TOKEN: $(npm-automation.token)
   displayName: Publish TFX CLI
+
+# - powershell: |
+#     npm publish
+#     if ($LASTEXITCODE -eq 1) {
+#       Write-Host "##vso[task.logissue type=warning]Publishing TFX CLI was unsuccessful"
+#       exit 0
+#     }
+#   env:
+#     NPM_TOKEN: $(npm-automation.token)
+#   displayName: Publish TFX CLI
