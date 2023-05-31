@@ -11,13 +11,13 @@ steps:
 - checkout: self
   clean: true
 
-# - task: NodeTool@0
-#   displayName: Use node 10
-#   inputs:
-#     versionSpec: "10.x"
+- task: NodeTool@0
+  displayName: Use node 10
+  inputs:
+    versionSpec: "10.x"
 
-# - script: npm i -g npm@6.14.12 --force
-#   displayName: Use npm version 6.14.12
+- script: npm i -g npm@6.14.12 --force
+  displayName: Use npm version 6.14.12
 
 - script: npm ci
   displayName: Install npm-dependencies
@@ -27,7 +27,7 @@ steps:
 
 - powershell: |
     ls
-    "//registry.npmjs.org/:_authToken=$env:NPM_TOKEN" | Out-File '.npmrc'
+    "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" | Out-File '.npmrc'
     Get-Content .npmrc
   displayName: Create '.npmrc'
   env:
@@ -40,7 +40,7 @@ steps:
 #     NPM_TOKEN: $(npm-automation.token)
 
 - bash: |
-      npm publish # Ignore publish failures, usually will happen because package already exists
+      npm publish# Ignore publish failures, usually will happen because package already exists
   displayName: npm publish
 
 # - powershell: |
