@@ -27,48 +27,10 @@ steps:
 
 # For CI runs on master, automatically publish packages
 - bash: |
-      echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > .npmrc
-      npm publish --ignore-scripts _build
+    echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > .npmrc
+    npm publish
   displayName: Publish TFX CLI
   continueOnError: true
   condition: and(succeeded(), in(variables['build.reason'], 'IndividualCI', 'Manual'))
   env:
     NPM_TOKEN: $(npm-automation.token)
-
-
-    # if [ $? -eq 1 ] 
-    # then 
-    #   echo "##vso[task.logissue type=warning]Publishing TFX CLI was unsuccessful"
-    #   echo "##vso[task.complete result=SucceededWithIssues;]"
-
-    #
-# - powershell: |
-#     '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' | Out-File '.npmrc'
-#     npm publish
-#     if ($LASTEXITCODE -eq 1) {
-#       Write-Host "##vso[task.logissue type=warning]Publishing TFX CLI was unsuccessful"
-#       exit 0
-#     }
-#   env:
-#     NPM_TOKEN: $(npm-automation.token)
-#   displayName: Publish TFX CLI
-
-# - powershell: |
-#     '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' | Out-File '.npmrc'
-#     Get-Content .npmrc
-#   displayName: File
-
-# - powershell: |
-#     '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' | Out-File '.npmrc'
-#     Get-Content .npmrc
-#     npm publish
-#     if ($LASTEXITCODE -eq 1) {
-#       Write-Host "##vso[task.logissue type=warning]Publishing TFX CLI was unsuccessful"
-#       Write-Host "##vso[task.complete result=SucceededWithIssues;]"
-#       exit 0
-#     }
-#   env:
-#     NPM_TOKEN: $(npm-automation.token)
-#   displayName: Publish TFX CLI
-#   condition: and(succeeded(), in(variables['build.reason'], 'IndividualCI', 'Manual'))
-
