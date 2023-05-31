@@ -66,5 +66,5 @@ steps:
   env:
     NPM_TOKEN: $(npm-automation.token)
   displayName: Publish TFX CLI
-  condition: and(succeeded(), in(variables['build.reason'], 'IndividualCI'))
+  condition: and(succeeded(), in(variables['build.reason'], 'IndividualCI', 'Manual'))
 
