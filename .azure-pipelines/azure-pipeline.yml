@@ -1,6 +1,6 @@
 trigger:
 - master
-- releases/*
+- release/*
 
 pool:
   vmImage: windows-latest
