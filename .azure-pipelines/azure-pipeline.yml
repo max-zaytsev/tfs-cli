@@ -43,7 +43,7 @@ steps:
 
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: '$(Pipeline.Workspace)/*.tgz'
+    targetPath: '$(Build.SourcesDirectory)/*.tgz'
     artifactType: 'pipeline'
     artifactName: 'tfx-cli-package'
   condition: succeeded()
