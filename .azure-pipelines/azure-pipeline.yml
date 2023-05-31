@@ -32,16 +32,24 @@ steps:
 #     Get-Content .npmrc
 #   displayName: Create '.npmrc'
 
-- powershell: |
-    "//registry.npmjs.org/:_authToken=$env:NPM_TOKEN" | Out-File ".npmrc"
-    & npm publish --ignore-scripts _build
-    if ($LASTEXITCODE -eq 1) {
-      Write-Host "##vso[task.logissue type=warning]Publishing TFX CLI was unsuccessful"
-      exit 0
-    }
+# For CI runs on master, automatically publish packages
+- bash: |
+      echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+      npm publish || true # Ignore publish failures, usually will happen because package already exists
+  displayName: npm publish
   env:
     NPM_TOKEN: $(npm-automation.token)
-  displayName: Publish TFX CLI
+
+# - powershell: |
+#     "//registry.npmjs.org/:_authToken=$env:NPM_TOKEN" | Out-File ".npmrc"
+#     & npm publish --ignore-scripts _build
+#     if ($LASTEXITCODE -eq 1) {
+#       Write-Host "##vso[task.logissue type=warning]Publishing TFX CLI was unsuccessful"
+#       exit 0
+#     }
+#   env:
+#     NPM_TOKEN: $(npm-automation.token)
+#   displayName: Publish TFX CLI
 
 # - powershell: |
 #     npm publish
