@@ -25,7 +25,7 @@ steps:
     npm run build
   displayName: Build TFX CLI
 
-- ${{ if in(variables['build.reason'], 'IndividualCI', 'BatchedCI', Manual) }}:
+- ${{ if in(variables['build.reason'], 'IndividualCI', 'BatchedCI', 'Manual') }}:
   # For CI and Manual runs, automatically publish packages
   - bash: |
       echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > .npmrc
