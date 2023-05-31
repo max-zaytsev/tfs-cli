@@ -25,11 +25,12 @@ steps:
     npm run build
   displayName: Build TFX CLI
 
-- ${{ if in(variables['build.reason'], 'IndividualCI', 'Manual') }}:
-  #For CI runs on master, automatically publish packages
+- ${{ if in(variables['build.reason'], 'IndividualCI', 'BatchedCI') }}:
+  # For CI runs on master, automatically publish packages
   - bash: |
       echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > .npmrc
       npm publish
+      rm .npmrc
     displayName: Publish TFX CLI
     continueOnError: true
     condition: succeeded()
@@ -37,7 +38,6 @@ steps:
       NPM_TOKEN: $(npm-automation.token)
 
   - bash: |
-      rm .npmrc
       npm pack
       cp *.tgz '$(Build.ArtifactStagingDirectory)'
     displayName: Pack
