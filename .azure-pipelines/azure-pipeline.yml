@@ -34,9 +34,9 @@ steps:
 #     NPM_TOKEN: $(npm-automation.token)
 
 # For CI runs on master, automatically publish packages
-- bash: |
-      echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > .npmrc
-  displayName: Publish TFX CLI
+# - bash: |
+#       echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > .npmrc
+#   displayName: Publish TFX CLI
 
 # - powershell: |
 #     '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' | Out-File '.npmrc'
@@ -50,9 +50,10 @@ steps:
 #   displayName: Publish TFX CLI
 
 - powershell: |
+    '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' | Out-File '.npmrc'
     npm publish
     if ($LASTEXITCODE -eq 1) {
-      Write-Host "##vso[task.logissue type=warning]Publishing TFX CLI was unsuccessful"
+      Write-Host "##vso[task.logissue type=error]Publishing TFX CLI was unsuccessful"
       exit 0
     }
   env:
