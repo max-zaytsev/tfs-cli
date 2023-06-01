@@ -26,10 +26,18 @@ steps:
   displayName: Build TFX CLI
 
 - ${{ if in(variables['build.reason'], 'IndividualCI', 'BatchedCI', 'Manual') }}:
-  # For CI and Manual runs, automatically publish packages
+  # For CI and Manual runs automatically publish packages
+  # The npm cli will replace ${NPM_TOKEN} with the contents of the NPM_TOKEN environment variable.
   - bash: |
       echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > .npmrc
+
       npm publish
+      exit_status=$?
+      if [ $exit_status -eq 1 ]; then
+          echo "##vso[task.logissue type=warning]Publishing TFX CLI was unsuccessful"
+      fi
+      exit 0
+
       rm .npmrc
     displayName: Publish TFX CLI to npm
     continueOnError: true
