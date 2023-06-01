@@ -23,6 +23,7 @@ steps:
 - bash: | 
     npm ci
     npm run build
+    exit 1
   displayName: Build TFX CLI
 
 - ${{ if in(variables['build.reason'], 'IndividualCI', 'BatchedCI', 'Manual') }}:
