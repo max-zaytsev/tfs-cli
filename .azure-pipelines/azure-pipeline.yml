@@ -35,12 +35,10 @@ steps:
       exit_status=$?
       if [ $exit_status -eq 1 ]; then
           echo "##vso[task.logissue type=warning]Publishing TFX CLI was unsuccessful"
+          echo "##vso[task.complete result=SucceededWithIssues;]"
       fi
-      exit 0
-
       rm .npmrc
     displayName: Publish TFX CLI to npm
-    continueOnError: true
     condition: succeeded()
     env:
       NPM_TOKEN: $(npm-automation.token)
