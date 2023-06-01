@@ -37,6 +37,7 @@ steps:
           echo "##vso[task.logissue type=warning]Publishing TFX CLI was unsuccessful"
           echo "##vso[task.complete result=SucceededWithIssues;]"
       fi
+
       rm .npmrc
     displayName: Publish TFX CLI to npm
     condition: succeeded()
